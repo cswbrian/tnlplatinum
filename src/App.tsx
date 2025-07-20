@@ -1,0 +1,230 @@
+import React, { useState } from 'react';
+import './App.css';
+import headerImage from './assets/header-min.png';
+import songsData from './data/songs.json';
+import adsData from './data/ads.json';
+import supportingActorsData from './data/supporting-actors.json';
+import varietyShowsData from './data/variety-shows.json';
+import auditionFilmsData from './data/audition-films.json';
+import filmsData from './data/films.json';
+
+const App: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('films');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const categories = [
+    { id: 'films', name: '最佳電影', data: filmsData, count: filmsData.length },
+    { id: 'songs', name: '最佳原創電影歌曲', data: songsData, count: songsData.length },
+    { id: 'ads', name: '最佳廣告片', data: adsData, count: adsData.length },
+    { id: 'audition-films', name: '最佳試音片', data: auditionFilmsData, count: auditionFilmsData.length },
+    { id: 'variety-shows', name: '最佳綜藝', data: varietyShowsData, count: varietyShowsData.length },
+    { id: 'supporting-actors', name: '最佳搭膊頭', data: supportingActorsData, count: supportingActorsData.length },
+  ];
+
+  const currentCategory = categories.find(cat => cat.id === selectedCategory);
+  const filteredData = currentCategory?.data.filter((item: any) => {
+    if (selectedCategory === 'supporting-actors') {
+      return item.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+    
+    if (selectedCategory === 'films') {
+      const searchFields = [
+        item.title,
+        item.fullTitle,
+        item.director,
+        item.writer,
+        item.leadActor,
+        item.leadActress,
+        item.supportingActor,
+        item.supportingActress,
+        item.newActor,
+        item.editor,
+        item.cinematographer,
+        item.actionDesign,
+        item.artDirector,
+        item.visualEffects,
+        item.month
+      ].filter(Boolean);
+      return searchFields.some(field => 
+        field.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    const searchFields = [
+      item.title || item.song || item.name,
+      item.fullTitle,
+      item.movie,
+      item.director
+    ].filter(Boolean);
+    return searchFields.some(field => 
+      field.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }) || [];
+
+  const renderFilmCard = (item: any, index: number) => {
+    return (
+      <div key={index} className="nominee-card film-card">
+        <div className="nominee-title">{item.title}</div>
+        {item.fullTitle && item.fullTitle !== item.title && (
+          <div className="nominee-subtitle">{item.fullTitle}</div>
+        )}
+        
+        <div className="film-details">
+          {item.director && (
+            <div className="film-detail">
+              <span className="detail-label">導演：</span>
+              <span className="detail-value">{item.director}</span>
+            </div>
+          )}
+          {item.writer && (
+            <div className="film-detail">
+              <span className="detail-label">編劇：</span>
+              <span className="detail-value">{item.writer}</span>
+            </div>
+          )}
+          {item.leadActor && (
+            <div className="film-detail">
+              <span className="detail-label">男主角：</span>
+              <span className="detail-value">{item.leadActor}</span>
+            </div>
+          )}
+          {item.leadActress && (
+            <div className="film-detail">
+              <span className="detail-label">女主角：</span>
+              <span className="detail-value">{item.leadActress}</span>
+            </div>
+          )}
+          {item.supportingActor && (
+            <div className="film-detail">
+              <span className="detail-label">男配角：</span>
+              <span className="detail-value">{item.supportingActor}</span>
+            </div>
+          )}
+          {item.supportingActress && (
+            <div className="film-detail">
+              <span className="detail-label">女配角：</span>
+              <span className="detail-value">{item.supportingActress}</span>
+            </div>
+          )}
+          {item.newActor && (
+            <div className="film-detail">
+              <span className="detail-label">新演員：</span>
+              <span className="detail-value">{item.newActor}</span>
+            </div>
+          )}
+          {item.editor && (
+            <div className="film-detail">
+              <span className="detail-label">剪接：</span>
+              <span className="detail-value">{item.editor}</span>
+            </div>
+          )}
+          {item.cinematographer && (
+            <div className="film-detail">
+              <span className="detail-label">攝影：</span>
+              <span className="detail-value">{item.cinematographer}</span>
+            </div>
+          )}
+          {item.actionDesign && (
+            <div className="film-detail">
+              <span className="detail-label">動作設計：</span>
+              <span className="detail-value">{item.actionDesign}</span>
+            </div>
+          )}
+          {item.artDirector && (
+            <div className="film-detail">
+              <span className="detail-label">美術指導：</span>
+              <span className="detail-value">{item.artDirector}</span>
+            </div>
+          )}
+          {item.visualEffects && (
+            <div className="film-detail">
+              <span className="detail-label">視覺效果：</span>
+              <span className="detail-value">{item.visualEffects}</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="film-meta">
+          {item.releaseDate && (
+            <span className="film-date">{item.releaseDate}</span>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderNomineeCard = (item: any, index: number) => {
+    if (selectedCategory === 'supporting-actors') {
+      return (
+        <div key={index} className="nominee-card">
+          <div className="nominee-title">{item}</div>
+        </div>
+      );
+    }
+
+    if (selectedCategory === 'films') {
+      return renderFilmCard(item, index);
+    }
+
+    return (
+      <div key={item.id || index} className="nominee-card">
+        <div className="nominee-title">
+          {item.song || item.title}
+        </div>
+        {item.fullTitle && item.fullTitle !== item.title && (
+          <div className="nominee-subtitle">{item.fullTitle}</div>
+        )}
+        {item.movie && (
+          <div className="nominee-movie">電影：{item.movie}</div>
+        )}
+        {item.director && (
+          <div className="nominee-director">導演：{item.director}</div>
+        )}
+        <div className="nominee-date">{item.releaseDate}</div>
+      </div>
+    );
+  };
+
+  return (
+          <div className="app">
+        <header className="app-header">
+          <img src={headerImage} alt="試當真白金像獎" className="header-image" />
+        </header>
+
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="搜尋候選作品..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
+      <div className="category-tabs">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            className={`category-tab ${selectedCategory === category.id ? 'active' : ''}`}
+            onClick={() => setSelectedCategory(category.id)}
+          >
+            <span className="category-name">{category.name}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="nominees-container">
+        <div className={`nominees-grid ${selectedCategory === 'films' ? 'films-grid' : ''}`}>
+          {filteredData.map((item, index) => renderNomineeCard(item, index))}
+        </div>
+        {filteredData.length === 0 && (
+          <div className="no-results">
+            沒有找到符合搜尋條件的結果
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default App;
