@@ -268,73 +268,73 @@ const App: React.FC = () => {
           {item.director && (
             <div className="film-detail">
               <span className="detail-label">導演：</span>
-              {highlightText(item.director, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.director, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.writer && (
             <div className="film-detail">
               <span className="detail-label">編劇：</span>
-              {highlightText(item.writer, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.writer, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.leadActor && (
             <div className="film-detail">
               <span className="detail-label">男主角：</span>
-              {highlightText(item.leadActor, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.leadActor, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.leadActress && (
             <div className="film-detail">
               <span className="detail-label">女主角：</span>
-              {highlightText(item.leadActress, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.leadActress, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.supportingActor && (
             <div className="film-detail">
               <span className="detail-label">男配角：</span>
-              {highlightText(item.supportingActor, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.supportingActor, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.supportingActress && (
             <div className="film-detail">
               <span className="detail-label">女配角：</span>
-              {highlightText(item.supportingActress, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.supportingActress, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.newActor && (
             <div className="film-detail">
               <span className="detail-label">新演員：</span>
-              {highlightText(item.newActor, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.newActor, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.editor && (
             <div className="film-detail">
               <span className="detail-label">剪接：</span>
-              {highlightText(item.editor, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.editor, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.cinematographer && (
             <div className="film-detail">
               <span className="detail-label">攝影：</span>
-              {highlightText(item.cinematographer, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.cinematographer, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.actionDesign && (
             <div className="film-detail">
               <span className="detail-label">動作設計：</span>
-              {highlightText(item.actionDesign, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.actionDesign, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.artDirector && (
             <div className="film-detail">
               <span className="detail-label">美術指導：</span>
-              {highlightText(item.artDirector, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.artDirector, debouncedSearchTerm)}</span>
             </div>
           )}
           {item.visualEffects && (
             <div className="film-detail">
               <span className="detail-label">視覺效果：</span>
-              {highlightText(item.visualEffects, debouncedSearchTerm)}
+              <span className="detail-value">{highlightText(item.visualEffects, debouncedSearchTerm)}</span>
             </div>
           )}
         </div>
@@ -376,7 +376,7 @@ const App: React.FC = () => {
           <div className="nominee-subtitle">{highlightText(item.fullTitle, debouncedSearchTerm)}</div>
         )}
         {item.movie && (
-          <div className="nominee-movie">電影：{highlightText(item.movie, debouncedSearchTerm)}</div>
+          <div className="nominee-movie">{highlightText(item.movie, debouncedSearchTerm)}</div>
         )}
         {item.director && (
           <div className="nominee-director">導演：{highlightText(item.director, debouncedSearchTerm)}</div>

@@ -24,6 +24,8 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   position: relative;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .app::before {
@@ -287,9 +289,9 @@ body {
 }
 
 .film-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
 }
 
 .film-month {
@@ -352,11 +354,6 @@ body {
     margin-right: 0;
   }
   
-  .film-meta {
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
-  }
   
   .category-tabs {
     padding: 0.5rem;
