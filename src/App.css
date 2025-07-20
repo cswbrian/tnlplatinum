@@ -480,4 +480,25 @@ body {
   white-space: nowrap;
 }
 
+/* Highlighted text styles */
+.highlighted-text {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #2c3e50;
+  padding: 0.1rem 0.2rem;
+  border-radius: 3px;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(255, 215, 0, 0.3);
+  animation: highlightPulse 0.3s ease-in-out;
+}
 
+@keyframes highlightPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

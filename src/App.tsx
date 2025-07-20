@@ -20,6 +20,22 @@ const App: React.FC = () => {
     'supporting-actors': new Set()
   });
 
+  // Helper function to highlight searched text
+  const highlightText = (text: string, searchTerm: string) => {
+    if (!searchTerm.trim()) return text;
+    
+    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    const parts = text.split(regex);
+    
+    return parts.map((part, index) => 
+      regex.test(part) ? (
+        <mark key={index} className="highlighted-text">{part}</mark>
+      ) : (
+        part
+      )
+    );
+  };
+
   // Load watched items from localStorage on component mount
   useEffect(() => {
     const savedWatchedItems = localStorage.getItem('tnlplatinum-watched-items');
@@ -118,7 +134,7 @@ const App: React.FC = () => {
     return (
       <div key={index} className="nominee-card film-card">
         <div className="nominee-title">
-          {item.title}
+          {highlightText(item.title, searchTerm)}
           <div className="watched-checkbox" onClick={() => toggleWatched(filmId, 'films')}>
             <span className={`checkbox ${isWatched ? 'checked' : ''}`}>
               {isWatched ? '✓' : ''}
@@ -127,80 +143,80 @@ const App: React.FC = () => {
           </div>
         </div>
         {item.fullTitle && item.fullTitle !== item.title && (
-          <div className="nominee-subtitle">{item.fullTitle}</div>
+          <div className="nominee-subtitle">{highlightText(item.fullTitle, searchTerm)}</div>
         )}
         
         <div className="film-details">
           {item.director && (
             <div className="film-detail">
               <span className="detail-label">導演：</span>
-              <span className="detail-value">{item.director}</span>
+              <span className="detail-value">{highlightText(item.director, searchTerm)}</span>
             </div>
           )}
           {item.writer && (
             <div className="film-detail">
               <span className="detail-label">編劇：</span>
-              <span className="detail-value">{item.writer}</span>
+              <span className="detail-value">{highlightText(item.writer, searchTerm)}</span>
             </div>
           )}
           {item.leadActor && (
             <div className="film-detail">
               <span className="detail-label">男主角：</span>
-              <span className="detail-value">{item.leadActor}</span>
+              <span className="detail-value">{highlightText(item.leadActor, searchTerm)}</span>
             </div>
           )}
           {item.leadActress && (
             <div className="film-detail">
               <span className="detail-label">女主角：</span>
-              <span className="detail-value">{item.leadActress}</span>
+              <span className="detail-value">{highlightText(item.leadActress, searchTerm)}</span>
             </div>
           )}
           {item.supportingActor && (
             <div className="film-detail">
               <span className="detail-label">男配角：</span>
-              <span className="detail-value">{item.supportingActor}</span>
+              <span className="detail-value">{highlightText(item.supportingActor, searchTerm)}</span>
             </div>
           )}
           {item.supportingActress && (
             <div className="film-detail">
               <span className="detail-label">女配角：</span>
-              <span className="detail-value">{item.supportingActress}</span>
+              <span className="detail-value">{highlightText(item.supportingActress, searchTerm)}</span>
             </div>
           )}
           {item.newActor && (
             <div className="film-detail">
               <span className="detail-label">新演員：</span>
-              <span className="detail-value">{item.newActor}</span>
+              <span className="detail-value">{highlightText(item.newActor, searchTerm)}</span>
             </div>
           )}
           {item.editor && (
             <div className="film-detail">
               <span className="detail-label">剪接：</span>
-              <span className="detail-value">{item.editor}</span>
+              <span className="detail-value">{highlightText(item.editor, searchTerm)}</span>
             </div>
           )}
           {item.cinematographer && (
             <div className="film-detail">
               <span className="detail-label">攝影：</span>
-              <span className="detail-value">{item.cinematographer}</span>
+              <span className="detail-value">{highlightText(item.cinematographer, searchTerm)}</span>
             </div>
           )}
           {item.actionDesign && (
             <div className="film-detail">
               <span className="detail-label">動作設計：</span>
-              <span className="detail-value">{item.actionDesign}</span>
+              <span className="detail-value">{highlightText(item.actionDesign, searchTerm)}</span>
             </div>
           )}
           {item.artDirector && (
             <div className="film-detail">
               <span className="detail-label">美術指導：</span>
-              <span className="detail-value">{item.artDirector}</span>
+              <span className="detail-value">{highlightText(item.artDirector, searchTerm)}</span>
             </div>
           )}
           {item.visualEffects && (
             <div className="film-detail">
               <span className="detail-label">視覺效果：</span>
-              <span className="detail-value">{item.visualEffects}</span>
+              <span className="detail-value">{highlightText(item.visualEffects, searchTerm)}</span>
             </div>
           )}
         </div>
@@ -219,7 +235,7 @@ const App: React.FC = () => {
       return (
         <div key={index} className="nominee-card">
           <div className="nominee-title">
-            {item}
+            {highlightText(item, searchTerm)}
           </div>
         </div>
       );
@@ -235,7 +251,7 @@ const App: React.FC = () => {
     return (
       <div key={item.id || index} className="nominee-card">
         <div className="nominee-title">
-          {item.song || item.title}
+          {highlightText(item.song || item.title, searchTerm)}
           <div className="watched-checkbox" onClick={() => toggleWatched(itemId, selectedCategory)}>
             <span className={`checkbox ${isWatched ? 'checked' : ''}`}>
               {isWatched ? '✓' : ''}
@@ -244,13 +260,13 @@ const App: React.FC = () => {
           </div>
         </div>
         {item.fullTitle && item.fullTitle !== item.title && (
-          <div className="nominee-subtitle">{item.fullTitle}</div>
+          <div className="nominee-subtitle">{highlightText(item.fullTitle, searchTerm)}</div>
         )}
         {item.movie && (
-          <div className="nominee-movie">電影：{item.movie}</div>
+          <div className="nominee-movie">電影：{highlightText(item.movie, searchTerm)}</div>
         )}
         {item.director && (
-          <div className="nominee-director">導演：{item.director}</div>
+          <div className="nominee-director">導演：{highlightText(item.director, searchTerm)}</div>
         )}
         <div className="nominee-date">{item.releaseDate}</div>
       </div>
