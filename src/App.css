@@ -217,6 +217,11 @@ body {
   overflow-wrap: break-word;
 }
 
+.nominee-title-text {
+  display: flex;
+  justify-content: start;
+}
+
 .nominee-subtitle {
   font-size: 0.85rem;
   color: #7f8c8d;
@@ -402,20 +407,52 @@ body {
   animation: fadeInUp 0.6s ease-out;
 }
 
+/* Loading spinner */
 .loading {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   color: rgba(255, 255, 255, 0.8);
   font-size: 1.1rem;
+  gap: 1rem;
 }
 
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(140, 19, 22, 0.3);
+  border-top: 3px solid #8c1316;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Optimize loading performance */
+.loading {
+  contain: layout style paint;
+}
+
+/* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .loading-spinner {
+    animation: none;
+  }
+  
+  .loading-spinner::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #8c1316;
+    animation: none;
   }
 }
 
@@ -501,4 +538,154 @@ body {
   100% {
     transform: scale(1);
   }
+}
+
+/* Load more indicator */
+.load-more-indicator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  gap: 0.5rem;
+  background: rgba(140, 19, 22, 0.1);
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.load-more-indicator .loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(140, 19, 22, 0.3);
+  border-top: 2px solid #8c1316;
+}
+
+/* Virtual scrolling container for films */
+.films-virtual-container {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 19, 22, 0.5) transparent;
+  -webkit-overflow-scrolling: touch;
+  contain: layout style paint;
+}
+
+.films-virtual-container > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.films-virtual-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.films-virtual-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.films-virtual-container::-webkit-scrollbar-thumb {
+  background-color: rgba(140, 19, 22, 0.5);
+  border-radius: 4px;
+}
+
+.films-virtual-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(140, 19, 22, 0.7);
+}
+
+/* Optimize film card rendering */
+.film-card {
+  will-change: transform;
+  contain: layout style paint;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* Performance optimizations */
+.nominee-card {
+  contain: layout style paint;
+  will-change: transform;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+/* Optimize search input */
+.search-input {
+  will-change: transform;
+}
+
+/* Optimize category tabs */
+.category-tab {
+  will-change: transform;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: no-preference) {
+  .nominee-card {
+    animation: fadeInUp 0.3s ease-out;
+  }
+}
+
+/* Optimize for large lists */
+.nominees-grid.films-grid {
+  contain: layout style paint;
+}
+
+/* Optimize film details rendering */
+.film-meta {
+  contain: layout style;
+}
+
+.film-detail {
+  contain: layout style;
+}
+
+/* Optimize text highlighting */
+.highlighted-text {
+  contain: layout style;
+}
+
+/* Optimize checkbox interactions */
+.watched-checkbox {
+  contain: layout style;
+  will-change: transform;
+}
+
+/* Optimize for mobile performance */
+@media (max-width: 768px) {
+  .films-virtual-container {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .film-card {
+    contain: layout style paint;
+  }
+  
+  .nominee-card {
+    contain: layout style paint;
+  }
+  
+  .load-more-indicator {
+    padding: 0.75rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Search results counter */
+.search-results-counter {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.search-results-counter .counter-text {
+  font-weight: 600;
+  font-size: 0.9rem;
 }
