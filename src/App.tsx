@@ -121,11 +121,18 @@ const App: React.FC = () => {
     localStorage.setItem('tnlplatinum-watched-items', JSON.stringify(serialized));
   }, [watchedItems]);
 
-  // Handle YouTube search
-  const handleYouTubeSearch = useCallback((fullTitle: string) => {
-    const encodedQuery = encodeURIComponent(fullTitle);
-    const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
-    window.open(youtubeUrl, '_blank', 'noopener,noreferrer');
+  // Handle YouTube link - use videoUrl if available, otherwise search
+  const handleYouTubeLink = useCallback((item: any) => {
+    if (item.videoUrl) {
+      // We have a direct video URL - open it directly
+      window.open(item.videoUrl, '_blank', 'noopener,noreferrer');
+    } else {
+      // No video URL - fallback to search
+      const searchTitle = item.fullTitle || item.title || item.song || item.name;
+      const encodedQuery = encodeURIComponent(searchTitle);
+      const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
+      window.open(youtubeUrl, '_blank', 'noopener,noreferrer');
+    }
   }, []);
 
   const toggleWatched = useCallback((itemId: string, category: string) => {
@@ -270,7 +277,7 @@ const App: React.FC = () => {
           </div>
         </div>
         {item.fullTitle && item.fullTitle !== item.title && (
-          <div className="nominee-subtitle" onClick={() => handleYouTubeSearch(item.fullTitle)}>
+          <div className="nominee-subtitle" onClick={() => handleYouTubeLink(item)}>
             <img src={youtubeIcon} alt="YouTube" className="youtube-icon" />
             {highlightText(item.fullTitle, debouncedSearchTerm)}
           </div>
@@ -352,7 +359,7 @@ const App: React.FC = () => {
         <div className="nominee-date">{item.releaseDate}</div>
       </div>
     );
-  }, [highlightText, debouncedSearchTerm, watchedItems.films, toggleWatched, handleYouTubeSearch]);
+  }, [highlightText, debouncedSearchTerm, watchedItems.films, toggleWatched, handleYouTubeLink]);
 
   const renderNomineeCard = useCallback((item: any, index: number) => {
     if (selectedCategory === 'supporting-actors') {
@@ -384,7 +391,7 @@ const App: React.FC = () => {
           </div>
         </div>
         {item.fullTitle && item.fullTitle !== item.title && (
-          <div className="nominee-subtitle" onClick={() => handleYouTubeSearch(item.fullTitle)}>
+          <div className="nominee-subtitle" onClick={() => handleYouTubeLink(item)}>
             <img src={youtubeIcon} alt="YouTube" className="youtube-icon" />
             {highlightText(item.fullTitle, debouncedSearchTerm)}
           </div>
@@ -398,7 +405,7 @@ const App: React.FC = () => {
         <div className="nominee-date">{item.releaseDate}</div>
       </div>
     );
-  }, [selectedCategory, highlightText, debouncedSearchTerm, watchedItems, toggleWatched, renderFilmCard, handleYouTubeSearch]);
+  }, [selectedCategory, highlightText, debouncedSearchTerm, watchedItems, toggleWatched, renderFilmCard, handleYouTubeLink]);
 
   return (
     <div className="app">

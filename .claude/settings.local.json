@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__fetch__imageFetch",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(yt-dlp:*)",
+      "Bash(python3:*)",
+      "Bash(rm:*)",
+      "WebFetch(domain:www.youtube.com)",
+      "Bash(mkdir:*)",
+      "Bash(pip install:*)",
+      "Bash(python:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": []
+  }
+}
