@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import './App.css';
 import headerImage from './assets/header-min.png';
+import youtubeIcon from './assets/youtube.svg';
 import songsData from './data/songs.json';
 import adsData from './data/ads.json';
 import supportingActorsData from './data/supporting-actors.json';
@@ -119,6 +120,13 @@ const App: React.FC = () => {
     });
     localStorage.setItem('tnlplatinum-watched-items', JSON.stringify(serialized));
   }, [watchedItems]);
+
+  // Handle YouTube search
+  const handleYouTubeSearch = useCallback((fullTitle: string) => {
+    const encodedQuery = encodeURIComponent(fullTitle);
+    const youtubeUrl = `https://www.youtube.com/results?search_query=${encodedQuery}`;
+    window.open(youtubeUrl, '_blank', 'noopener,noreferrer');
+  }, []);
 
   const toggleWatched = useCallback((itemId: string, category: string) => {
     setWatchedItems(prev => {
@@ -262,7 +270,10 @@ const App: React.FC = () => {
           </div>
         </div>
         {item.fullTitle && item.fullTitle !== item.title && (
-          <div className="nominee-subtitle">{highlightText(item.fullTitle, debouncedSearchTerm)}</div>
+          <div className="nominee-subtitle" onClick={() => handleYouTubeSearch(item.fullTitle)}>
+            <img src={youtubeIcon} alt="YouTube" className="youtube-icon" />
+            {highlightText(item.fullTitle, debouncedSearchTerm)}
+          </div>
         )}
         <div className="film-meta">
           {item.director && (
@@ -341,7 +352,7 @@ const App: React.FC = () => {
         <div className="nominee-date">{item.releaseDate}</div>
       </div>
     );
-  }, [highlightText, debouncedSearchTerm, watchedItems.films, toggleWatched]);
+  }, [highlightText, debouncedSearchTerm, watchedItems.films, toggleWatched, handleYouTubeSearch]);
 
   const renderNomineeCard = useCallback((item: any, index: number) => {
     if (selectedCategory === 'supporting-actors') {
@@ -373,7 +384,10 @@ const App: React.FC = () => {
           </div>
         </div>
         {item.fullTitle && item.fullTitle !== item.title && (
-          <div className="nominee-subtitle">{highlightText(item.fullTitle, debouncedSearchTerm)}</div>
+          <div className="nominee-subtitle" onClick={() => handleYouTubeSearch(item.fullTitle)}>
+            <img src={youtubeIcon} alt="YouTube" className="youtube-icon" />
+            {highlightText(item.fullTitle, debouncedSearchTerm)}
+          </div>
         )}
         {item.movie && (
           <div className="nominee-movie">{highlightText(item.movie, debouncedSearchTerm)}</div>
@@ -384,7 +398,7 @@ const App: React.FC = () => {
         <div className="nominee-date">{item.releaseDate}</div>
       </div>
     );
-  }, [selectedCategory, highlightText, debouncedSearchTerm, watchedItems, toggleWatched, renderFilmCard]);
+  }, [selectedCategory, highlightText, debouncedSearchTerm, watchedItems, toggleWatched, renderFilmCard, handleYouTubeSearch]);
 
   return (
     <div className="app">

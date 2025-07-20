@@ -223,11 +223,41 @@ body {
 }
 
 .nominee-subtitle {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: #7f8c8d;
   margin-bottom: 0.5rem;
   line-height: 1.3;
   font-style: italic;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0.25rem 0;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nominee-subtitle:hover {
+  color: #8c1316;
+  background-color: rgba(140, 19, 22, 0.1);
+  transform: translateY(-1px);
+}
+
+.nominee-subtitle:active {
+  transform: translateY(0);
+}
+
+.youtube-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  filter: brightness(0.7);
+}
+
+.nominee-subtitle:hover .youtube-icon {
+  transform: scale(1.2);
+  filter: brightness(1);
 }
 
 .nominee-movie {
@@ -292,6 +322,7 @@ body {
   flex-direction: column;
   gap: 0.5rem;
   align-items: flex-start;
+  margin-bottom: 12px;
 }
 
 .film-month {
