@@ -429,7 +429,7 @@ const App: React.FC = () => {
         {selectedCategory === 'films' && debouncedSearchTerm && (
           <div className="search-results-counter">
             <span className="counter-text">
-              找到{filteredData.length}條片
+              揾{filteredData.length}條片
             </span>
           </div>
         )}
@@ -472,7 +472,7 @@ const App: React.FC = () => {
         
         {filteredData.length === 0 && !isLoading && (
           <div className="no-results">
-            沒有找到符合搜尋條件的結果
+            揾唔到
           </div>
         )}
       </div>

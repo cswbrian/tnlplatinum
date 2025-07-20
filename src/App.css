@@ -218,8 +218,6 @@ body {
 }
 
 .nominee-title-text {
-  display: flex;
-  justify-content: start;
 }
 
 .nominee-subtitle {
