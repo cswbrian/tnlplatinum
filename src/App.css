@@ -74,6 +74,27 @@ body {
   font-weight: 500;
 }
 
+/* Disclaimer */
+.disclaimer {
+  margin: 6px 0 10px;
+  color: white;
+}
+
+.disclaimer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.disclaimer a {
+  color: white;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.disclaimer a:hover {
+  text-decoration: underline;
+}
+
 /* Search */
 .search-container {
   padding: 1rem;

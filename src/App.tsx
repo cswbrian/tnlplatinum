@@ -214,6 +214,10 @@ const App: React.FC = () => {
       </div>
 
       <div className="nominees-container">
+        <div className="disclaimer">
+          <p>此網站僅供參考，請以 <a href="https://www.instagram.com/p/DMR3OmuTTR7" target="_blank" rel="noopener noreferrer">試當真IG</a>為準。</p>
+        </div>
+        
         <div className={`nominees-grid ${selectedCategory === 'films' ? 'films-grid' : ''}`}>
           {filteredData.map((item, index) => renderNomineeCard(item, index))}
         </div>
