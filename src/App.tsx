@@ -201,7 +201,7 @@ const App: React.FC = () => {
   }, [selectedCategory, debouncedSearchTerm, searchTerm]);
 
   // Lazy loading for films data
-  const { loadedData: lazyFilteredFilms, hasMore, loadMore, totalCount } = useLazyData(
+  const { loadedData: lazyFilteredFilms, hasMore, loadMore } = useLazyData(
     selectedCategory === 'films' ? filteredData : [],
     100 // Load 100 items at a time
   );
@@ -246,7 +246,7 @@ const App: React.FC = () => {
     }
   }, [setFilmsScrollTop, hasMore, loadMore]);
 
-  const renderFilmCard = useCallback((item: any, index: number) => {
+  const renderFilmCard = useCallback((item: any) => {
     const filmId = `${item.title}-${item.director || ''}`;
     const isWatched = watchedItems.films.has(filmId);
     
@@ -355,7 +355,7 @@ const App: React.FC = () => {
     }
 
     if (selectedCategory === 'films') {
-      return renderFilmCard(item, index);
+      return renderFilmCard(item);
     }
 
     const itemId = `${item.song || item.title || item.name}-${item.movie || item.director || ''}`;
@@ -454,7 +454,7 @@ const App: React.FC = () => {
           >
             <div style={{ height: filmsTotalHeight, position: 'relative' }}>
               <div style={{ transform: `translateY(${filmsOffsetY}px)` }}>
-                {visibleFilms.map((item, index) => renderFilmCard(item, index))}
+                {visibleFilms.map((item) => renderFilmCard(item))}
               </div>
             </div>
             {hasMore && (
