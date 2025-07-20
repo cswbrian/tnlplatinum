@@ -79,7 +79,7 @@ body {
 /* Disclaimer */
 .disclaimer {
   margin: 6px 0 10px;
-  color: white;
+  color: #faefdc;
 }
 
 .disclaimer p {
@@ -88,7 +88,7 @@ body {
 }
 
 .disclaimer a {
-  color: white;
+  color: #faefdc;
   text-decoration: underline;
   font-weight: 600;
 }
@@ -157,7 +157,7 @@ body {
 
 .category-tab.active {
   background: linear-gradient(135deg, #8c1316 0%, #6a0f12 100%);
-  color: white;
+  color: #faefdc;
   box-shadow: 0 4px 15px rgba(140, 19, 22, 0.4);
 }
 
@@ -491,7 +491,7 @@ body {
 /* Watched counter styles */
 .watched-counter {
   background: rgba(140, 19, 22, 0.9);
-  color: white;
+  color: #faefdc;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   margin-bottom: 0.5rem;
@@ -524,7 +524,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: #faefdc;
   color: #8c1316;
   font-size: 12px;
   font-weight: bold;
@@ -533,14 +533,14 @@ body {
 
 .checkbox.checked {
   background: #8c1316;
-  color: white;
+  color: #faefdc;
 }
 
 .watched-text {
   font-size: 0.9rem;
   color: #8c1316;
   font-weight: 600;
-  white-space: nowrap;
+  #faefdc-space: nowrap;
 }
 
 /* Highlighted text styles */
@@ -701,7 +701,7 @@ body {
 /* Search results counter */
 .search-results-counter {
   background: rgba(255, 255, 255, 0.1);
-  color: white;
+  color: #faefdc;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   margin-bottom: 0.5rem;
