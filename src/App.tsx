@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import headerImage from './assets/header-min.png';
 import songsData from './data/songs.json';
@@ -11,6 +11,56 @@ import filmsData from './data/films.json';
 const App: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('films');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [watchedItems, setWatchedItems] = useState<Record<string, Set<string>>>({
+    films: new Set(),
+    songs: new Set(),
+    ads: new Set(),
+    'audition-films': new Set(),
+    'variety-shows': new Set(),
+    'supporting-actors': new Set()
+  });
+
+  // Load watched items from localStorage on component mount
+  useEffect(() => {
+    const savedWatchedItems = localStorage.getItem('tnlplatinum-watched-items');
+    if (savedWatchedItems) {
+      try {
+        const parsed = JSON.parse(savedWatchedItems);
+        const converted: Record<string, Set<string>> = {};
+        Object.keys(parsed).forEach(category => {
+          converted[category] = new Set(parsed[category]);
+        });
+        setWatchedItems(converted);
+      } catch (error) {
+        console.error('Error loading watched items from localStorage:', error);
+      }
+    }
+  }, []);
+
+  // Save watched items to localStorage whenever they change
+  useEffect(() => {
+    const serialized: Record<string, string[]> = {};
+    Object.keys(watchedItems).forEach(category => {
+      serialized[category] = Array.from(watchedItems[category]);
+    });
+    localStorage.setItem('tnlplatinum-watched-items', JSON.stringify(serialized));
+  }, [watchedItems]);
+
+  const toggleWatched = (itemId: string, category: string) => {
+    setWatchedItems(prev => {
+      const newWatchedItems = { ...prev };
+      const categorySet = new Set(newWatchedItems[category]);
+      
+      if (categorySet.has(itemId)) {
+        categorySet.delete(itemId);
+      } else {
+        categorySet.add(itemId);
+      }
+      
+      newWatchedItems[category] = categorySet;
+      return newWatchedItems;
+    });
+  };
 
   const categories = [
     { id: 'films', name: '最佳電影', data: filmsData, count: filmsData.length },
@@ -61,10 +111,21 @@ const App: React.FC = () => {
     );
   }) || [];
 
-  const renderFilmCard = (item: any, index: number) => {
+    const renderFilmCard = (item: any, index: number) => {
+    const filmId = `${item.title}-${item.director || ''}`;
+    const isWatched = watchedItems.films.has(filmId);
+    
     return (
       <div key={index} className="nominee-card film-card">
-        <div className="nominee-title">{item.title}</div>
+        <div className="nominee-title">
+          {item.title}
+          <div className="watched-checkbox" onClick={() => toggleWatched(filmId, 'films')}>
+            <span className={`checkbox ${isWatched ? 'checked' : ''}`}>
+              {isWatched ? '✓' : ''}
+            </span>
+            <span className="watched-text">睇過</span>
+          </div>
+        </div>
         {item.fullTitle && item.fullTitle !== item.title && (
           <div className="nominee-subtitle">{item.fullTitle}</div>
         )}
@@ -157,7 +218,9 @@ const App: React.FC = () => {
     if (selectedCategory === 'supporting-actors') {
       return (
         <div key={index} className="nominee-card">
-          <div className="nominee-title">{item}</div>
+          <div className="nominee-title">
+            {item}
+          </div>
         </div>
       );
     }
@@ -166,10 +229,19 @@ const App: React.FC = () => {
       return renderFilmCard(item, index);
     }
 
+    const itemId = `${item.song || item.title || item.name}-${item.movie || item.director || ''}`;
+    const isWatched = watchedItems[selectedCategory].has(itemId);
+
     return (
       <div key={item.id || index} className="nominee-card">
         <div className="nominee-title">
           {item.song || item.title}
+          <div className="watched-checkbox" onClick={() => toggleWatched(itemId, selectedCategory)}>
+            <span className={`checkbox ${isWatched ? 'checked' : ''}`}>
+              {isWatched ? '✓' : ''}
+            </span>
+            <span className="watched-text">{selectedCategory === 'audition-films' ? '聽過' : '睇過'}</span>
+          </div>
         </div>
         {item.fullTitle && item.fullTitle !== item.title && (
           <div className="nominee-subtitle">{item.fullTitle}</div>
@@ -214,6 +286,16 @@ const App: React.FC = () => {
       </div>
 
       <div className="nominees-container">
+        {selectedCategory !== 'supporting-actors' && (
+          <div className="watched-counter">
+            <span className="counter-text">
+              {selectedCategory === 'audition-films' 
+                ? `聽過 ${watchedItems[selectedCategory].size} 首歌` 
+                : `睇過 ${watchedItems[selectedCategory].size} 條片`
+              }
+            </span>
+          </div>
+        )}
         <div className="disclaimer">
           <p>此網站僅供參考，請以 <a href="https://www.instagram.com/p/DMR3OmuTTR7" target="_blank" rel="noopener noreferrer">試當真IG</a>為準。</p>
         </div>
